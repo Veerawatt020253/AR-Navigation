@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>เลือกจุดหมาย</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="font-family: sans-serif; text-align: center; padding: 20px;">
+  <h1>เลือกจุดหมายปลายทาง</h1>
+
+  <button onclick="goTo('library')">ไปห้องสมุด</button><br><br>
+  <button onclick="goTo('canteen')">ไปโรงอาหาร</button><br><br>
+  <button onclick="goTo('auditorium')">ไปหอประชุม</button>
+
+  <script>
+    function goTo(destination) {
+      // ส่งค่า destination ไปหน้า navigate.html
+      window.location.href = `navigate.html?destination=${destination}`;
+    }
+  </script>
+</body>
+</html>

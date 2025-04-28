@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>นำทางด้วย AR หมุนได้</title>
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/jeromeetienne/AR.js/aframe/build/aframe-ar.min.js"></script>
+  <script src="https://unpkg.com/aframe-gps-entity-place/dist/aframe-gps-entity-place.min.js"></script>
+</head>
+<body style="margin: 0; overflow: hidden;">
+  <a-scene embedded arjs="sourceType: webcam;">
+    <!-- ลูกศรนำทาง -->
+    <a-entity id="arrow" 
+      geometry="primitive: cone; radiusBottom: 0.3; radiusTop: 0; height: 1;"
+      material="color: #4CAF50;"
+      rotation="0 0 0"
+      position="0 0 0">
+    </a-entity>
+
+    <!-- กล้อง -->
+    <a-camera gps-camera rotation-reader></a-camera>
+  </a-scene>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const destination = urlParams.get('destination');
+
+    const destinations = {
+      library: { lat: 18.796500, lon: 98.978900 },
+      canteen: { lat: 18.796000, lon: 98.979300 },
+      auditorium: { lat: 18.796200, lon: 98.978500 }
+    };
+
+    let targetCoords;
+
+    if (destination && destinations[destination]) {
+      targetCoords = destinations[destination];
+    } else {
+      alert('ไม่พบจุดหมายที่เลือก!');
+    }
+
+    const arrow = document.getElementById('arrow');
+
+    // คำนวณองศาระหว่างตำแหน่งเรา -> จุดหมาย
+    function computeBearing(lat1, lon1, lat2, lon2) {
+      const toRadians = deg => deg * Math.PI / 180;
+      const toDegrees = rad => rad * 180 / Math.PI;
+
+      const dLon = toRadians(lon2 - lon1);
+      const y = Math.sin(dLon) * Math.cos(toRadians(lat2));
+      const x = Math.cos(toRadians(lat1)) * Math.sin(toRadians(lat2)) -
+                Math.sin(toRadians(lat1)) * Math.cos(toRadians(lat2)) * Math.cos(dLon);
+      const brng = Math.atan2(y, x);
+      return (toDegrees(brng) + 360) % 360;
+    }
+
+    window.addEventListener('gps-camera-update-position', (e) => {
+      const userCoords = e.detail.position;
+
+      // วางลูกศรที่ตำแหน่งเป้าหมาย
+      arrow.setAttribute('gps-entity-place', `latitude: ${targetCoords.lat}; longitude: ${targetCoords.lon};`);
+
+      // คำนวณทิศทางที่ต้องหันไป
+      const bearing = computeBearing(userCoords.latitude, userCoords.longitude, targetCoords.lat, targetCoords.lon);
+
+      // หาค่ามุมเข็มทิศของผู้ใช้
+      const heading = e.detail.heading; // (หัวกล้อง)
+      if (heading !== undefined) {
+        const relativeBearing = bearing - heading;
+        arrow.setAttribute('rotation', `0 ${relativeBearing} 0`);
+      }
+    });
+  </script>
+</body>
+</html>

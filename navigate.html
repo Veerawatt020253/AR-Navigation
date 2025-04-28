@@ -1,91 +1,115 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>นำทางด้วย AR หมุนได้</title>
-  <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
-  <!-- Ensure you're using a working version of AR.js -->
-  <script src="https://cdn.jsdelivr.net/gh/jeromeetienne/AR.js/aframe/build/aframe-ar.js"></script>
-  <script src="https://unpkg.com/aframe-gps-entity-place/dist/aframe-gps-entity-place.min.js"></script>
-</head>
-<body style="margin: 0; overflow: hidden;">
-  <a-scene embedded arjs="sourceType: webcam; trackingMethod: best;">
+  <head>
+    <title>นำทางด้วย AR หมุนได้</title>
+    <!-- เปลี่ยน A-Frame เป็นเวอร์ชัน 1.2.0 -->
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
 
-    <!-- ลูกศรนำทาง -->
-    <a-entity id="arrow" 
-      geometry="primitive: cone; radiusBottom: 0.3; radiusTop: 0; height: 1;"
-      material="color: #4CAF50;"
-      rotation="0 0 0"
-      position="0 0 0">
-    </a-entity>
+    <!-- ใช้ AR.js รุ่นที่เข้ากัน (เช่น ar.js@3.3.2 หรือของ AR.js-org) -->
+    <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.3.2/aframe/build/aframe-ar.min.js"></script>
+  </head>
+  <body style="margin: 0; overflow: hidden">
+    <a-scene embedded arjs="sourceType: webcam; trackingMethod: best;">
+      <!-- ลูกศรนำทาง -->
+      <a-entity
+        id="arrow"
+        geometry="primitive: cone; radiusBottom: 0.3; radiusTop: 0; height: 1;"
+        material="color: #4CAF50;"
+        rotation="0 0 0"
+        position="0 0 0"
+      >
+      </a-entity>
 
-    <!-- กล้อง -->
-    <a-camera gps-camera rotation-reader></a-camera>
-  </a-scene>
+      <!-- กล้อง -->
+      <a-camera gps-camera rotation-reader></a-camera>
+    </a-scene>
 
-  <!-- ข้อความแสดงสถานะการนำทาง -->
-  <div id="status" style="position: fixed; top: 10px; left: 10px; color: white; font-size: 20px;">กรุณารอการกำหนดทิศทาง...</div>
+    <!-- ข้อความแสดงสถานะการนำทาง -->
+    <div
+      id="status"
+      style="
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        color: white;
+        font-size: 20px;
+      "
+    >
+      กรุณารอการกำหนดทิศทาง...
+    </div>
 
-  <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const destination = urlParams.get('destination');
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const destination = urlParams.get("destination");
 
-    const destinations = {
-      library: { lat: 18.791915, lon: 98.988959 },
-      canteen: { lat: 18.796000, lon: 98.979300 },
-      auditorium: { lat: 18.796200, lon: 98.978500 }
-    };
+      const destinations = {
+        library: { lat: 18.791915, lon: 98.988959 },
+        canteen: { lat: 18.796, lon: 98.9793 },
+        auditorium: { lat: 18.7962, lon: 98.9785 },
+      };
 
-    let targetCoords;
+      let targetCoords;
 
-    if (destination && destinations[destination]) {
-      targetCoords = destinations[destination];
-    } else {
-      alert('ไม่พบจุดหมายที่เลือก!');
-    }
-
-    const arrow = document.getElementById('arrow');
-    const statusElement = document.getElementById('status');
-
-    // คำนวณองศาระหว่างตำแหน่งเรา -> จุดหมาย
-    function computeBearing(lat1, lon1, lat2, lon2) {
-      const toRadians = deg => deg * Math.PI / 180;
-      const toDegrees = rad => rad * 180 / Math.PI;
-
-      const dLon = toRadians(lon2 - lon1);
-      const y = Math.sin(dLon) * Math.cos(toRadians(lat2));
-      const x = Math.cos(toRadians(lat1)) * Math.sin(toRadians(lat2)) -
-                Math.sin(toRadians(lat1)) * Math.cos(toRadians(lat2)) * Math.cos(dLon);
-      const brng = Math.atan2(y, x);
-      return (toDegrees(brng) + 360) % 360;
-    }
-
-    window.addEventListener('gps-camera-update-position', (e) => {
-      const userCoords = e.detail.position;
-
-      // วางลูกศรที่ตำแหน่งเป้าหมาย
-      arrow.setAttribute('gps-entity-place', `latitude: ${targetCoords.lat}; longitude: ${targetCoords.lon};`);
-
-      // คำนวณทิศทางที่ต้องหันไป
-      const bearing = computeBearing(userCoords.latitude, userCoords.longitude, targetCoords.lat, targetCoords.lon);
-
-      // หาค่ามุมเข็มทิศของผู้ใช้
-      const heading = e.detail.heading; // (หัวกล้อง)
-      if (heading !== undefined) {
-        const relativeBearing = bearing - heading;
-        arrow.setAttribute('rotation', `0 ${relativeBearing} 0`);
-
-        // ตรวจสอบว่าผู้ใช้กำลังเดินไปในทิศทางที่ถูกต้องหรือไม่
-        const angleDifference = Math.abs(relativeBearing);
-        if (angleDifference < 10) { // ทิศทางถูกต้องเมื่อมุมไม่เกิน 10 องศา
-          statusElement.innerText = 'ทิศทางถูกต้อง';
-          statusElement.style.color = 'green';
-        } else {
-          statusElement.innerText = 'ทิศทางผิด';
-          statusElement.style.color = 'red';
-        }
+      if (destination && destinations[destination]) {
+        targetCoords = destinations[destination];
+      } else {
+        alert("ไม่พบจุดหมายที่เลือก!");
       }
-    });
 
-  </script>
-</body>
+      const arrow = document.getElementById("arrow");
+      const statusElement = document.getElementById("status");
+
+      // คำนวณองศาระหว่างตำแหน่งเรา -> จุดหมาย
+      function computeBearing(lat1, lon1, lat2, lon2) {
+        const toRadians = (deg) => (deg * Math.PI) / 180;
+        const toDegrees = (rad) => (rad * 180) / Math.PI;
+
+        const dLon = toRadians(lon2 - lon1);
+        const y = Math.sin(dLon) * Math.cos(toRadians(lat2));
+        const x =
+          Math.cos(toRadians(lat1)) * Math.sin(toRadians(lat2)) -
+          Math.sin(toRadians(lat1)) *
+            Math.cos(toRadians(lat2)) *
+            Math.cos(dLon);
+        const brng = Math.atan2(y, x);
+        return (toDegrees(brng) + 360) % 360;
+      }
+
+      window.addEventListener("gps-camera-update-position", (e) => {
+        const userCoords = e.detail.position;
+
+        // วางลูกศรที่ตำแหน่งเป้าหมาย
+        arrow.setAttribute(
+          "gps-entity-place",
+          `latitude: ${targetCoords.lat}; longitude: ${targetCoords.lon};`
+        );
+
+        // คำนวณทิศทางที่ต้องหันไป
+        const bearing = computeBearing(
+          userCoords.latitude,
+          userCoords.longitude,
+          targetCoords.lat,
+          targetCoords.lon
+        );
+
+        // หาค่ามุมเข็มทิศของผู้ใช้
+        const heading = e.detail.heading; // (หัวกล้อง)
+        if (heading !== undefined) {
+          const relativeBearing = bearing - heading;
+          arrow.setAttribute("rotation", `0 ${relativeBearing} 0`);
+
+          // ตรวจสอบว่าผู้ใช้กำลังเดินไปในทิศทางที่ถูกต้องหรือไม่
+          const angleDifference = Math.abs(relativeBearing);
+          if (angleDifference < 10) {
+            // ทิศทางถูกต้องเมื่อมุมไม่เกิน 10 องศา
+            statusElement.innerText = "ทิศทางถูกต้อง";
+            statusElement.style.color = "green";
+          } else {
+            statusElement.innerText = "ทิศทางผิด";
+            statusElement.style.color = "red";
+          }
+        }
+      });
+    </script>
+  </body>
 </html>

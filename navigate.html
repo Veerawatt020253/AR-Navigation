@@ -7,7 +7,7 @@
   </head>
   <body style="margin: 0; overflow: hidden">
     <a-scene embedded arjs="sourceType: webcam; trackingMethod: best;">
-      <!-- ลูกศรนำทางที่มีความชัดเจนขึ้น -->
+      <!-- ลูกศรนำทาง -->
       <a-entity
         id="arrow"
         geometry="primitive: cone; radiusBottom: 0.5; radiusTop: 0; height: 1.5;"
@@ -44,6 +44,12 @@
         auditorium: { lat: 18.7962, lon: 98.9785 },
       };
 
+      // สิ่งกีดขวางในแผนที่ (ตัวอย่าง)
+      const obstacles = [
+        { lat: 18.792, lon: 98.9885 }, // ตัวอย่างตำแหน่งสิ่งกีดขวาง
+        { lat: 18.795, lon: 98.9795 }
+      ];
+
       let targetCoords;
 
       if (destination && destinations[destination]) {
@@ -70,33 +76,70 @@
         return (toDegrees(brng) + 360) % 360;
       }
 
+      // ฟังก์ชันตรวจจับระยะทางจากสิ่งกีดขวาง
+      function checkForObstacles(userCoords) {
+        for (let i = 0; i < obstacles.length; i++) {
+          const obstacle = obstacles[i];
+          const distance = getDistance(userCoords.latitude, userCoords.longitude, obstacle.lat, obstacle.lon);
+          if (distance < 0.001) { // ถ้าห่างจากสิ่งกีดขวางน้อยกว่า 1 เมตร
+            return true; // พบสิ่งกีดขวาง
+          }
+        }
+        return false; // ไม่มีสิ่งกีดขวาง
+      }
+
+      // ฟังก์ชันคำนวณระยะทาง
+      function getDistance(lat1, lon1, lat2, lon2) {
+        const R = 6371; // รัศมีของโลก (km)
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLon = (lon2 - lon1) * Math.PI / 180;
+        const a =
+          Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+          Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+          Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const distance = R * c;
+        return distance; // ระยะทางเป็นกิโลเมตร
+      }
+
       window.addEventListener("gps-camera-update-position", (e) => {
         const userCoords = e.detail.position;
 
+        // วางลูกศรที่ตำแหน่งเป้าหมาย
         arrow.setAttribute(
           "gps-entity-place",
           `latitude: ${targetCoords.lat}; longitude: ${targetCoords.lon};`
         );
 
-        const bearing = computeBearing(
-          userCoords.latitude,
-          userCoords.longitude,
-          targetCoords.lat,
-          targetCoords.lon
-        );
+        // ตรวจสอบการมีสิ่งกีดขวาง
+        if (checkForObstacles(userCoords)) {
+          statusElement.innerText = "มีสิ่งกีดขวางข้างหน้า!";
+          statusElement.style.color = "orange";
 
-        const heading = e.detail.heading; 
-        if (heading !== undefined) {
-          const relativeBearing = bearing - heading;
-          arrow.setAttribute("rotation", `0 ${relativeBearing} 0`);
+          // ปรับทิศทางลูกศรให้หันไปอีกทางเมื่อเจอสิ่งกีดขวาง
+          arrow.setAttribute("rotation", `0 180 0`);
+        } else {
+          // คำนวณทิศทางปกติ
+          const bearing = computeBearing(
+            userCoords.latitude,
+            userCoords.longitude,
+            targetCoords.lat,
+            targetCoords.lon
+          );
 
-          const angleDifference = Math.abs(relativeBearing);
-          if (angleDifference < 10) {
-            statusElement.innerText = "ทิศทางถูกต้อง";
-            statusElement.style.color = "green";
-          } else {
-            statusElement.innerText = "ทิศทางผิด";
-            statusElement.style.color = "red";
+          const heading = e.detail.heading;
+          if (heading !== undefined) {
+            const relativeBearing = bearing - heading;
+            arrow.setAttribute("rotation", `0 ${relativeBearing} 0`);
+
+            const angleDifference = Math.abs(relativeBearing);
+            if (angleDifference < 10) {
+              statusElement.innerText = "ทิศทางถูกต้อง";
+              statusElement.style.color = "green";
+            } else {
+              statusElement.innerText = "ทิศทางผิด";
+              statusElement.style.color = "red";
+            }
           }
         }
       });

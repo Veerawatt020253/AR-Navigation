@@ -2,19 +2,16 @@
 <html>
   <head>
     <title>นำทางด้วย AR หมุนได้</title>
-    <!-- เปลี่ยน A-Frame เป็นเวอร์ชัน 1.2.0 -->
     <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-
-    <!-- ใช้ AR.js รุ่นที่เข้ากัน (เช่น ar.js@3.3.2 หรือของ AR.js-org) -->
     <script src="https://cdn.jsdelivr.net/gh/AR-js-org/AR.js@3.3.2/aframe/build/aframe-ar.min.js"></script>
   </head>
   <body style="margin: 0; overflow: hidden">
     <a-scene embedded arjs="sourceType: webcam; trackingMethod: best;">
-      <!-- ลูกศรนำทาง -->
+      <!-- ลูกศรนำทางที่มีความชัดเจนขึ้น -->
       <a-entity
         id="arrow"
-        geometry="primitive: cone; radiusBottom: 0.3; radiusTop: 0; height: 1;"
-        material="color: #4CAF50;"
+        geometry="primitive: cone; radiusBottom: 0.5; radiusTop: 0; height: 1.5;"
+        material="color: #FF6347; emissive: #FF6347; opacity: 0.8;"
         rotation="0 0 0"
         position="0 0 0"
       >
@@ -24,7 +21,6 @@
       <a-camera gps-camera rotation-reader></a-camera>
     </a-scene>
 
-    <!-- ข้อความแสดงสถานะการนำทาง -->
     <div
       id="status"
       style="
@@ -59,7 +55,6 @@
       const arrow = document.getElementById("arrow");
       const statusElement = document.getElementById("status");
 
-      // คำนวณองศาระหว่างตำแหน่งเรา -> จุดหมาย
       function computeBearing(lat1, lon1, lat2, lon2) {
         const toRadians = (deg) => (deg * Math.PI) / 180;
         const toDegrees = (rad) => (rad * 180) / Math.PI;
@@ -78,13 +73,11 @@
       window.addEventListener("gps-camera-update-position", (e) => {
         const userCoords = e.detail.position;
 
-        // วางลูกศรที่ตำแหน่งเป้าหมาย
         arrow.setAttribute(
           "gps-entity-place",
           `latitude: ${targetCoords.lat}; longitude: ${targetCoords.lon};`
         );
 
-        // คำนวณทิศทางที่ต้องหันไป
         const bearing = computeBearing(
           userCoords.latitude,
           userCoords.longitude,
@@ -92,16 +85,13 @@
           targetCoords.lon
         );
 
-        // หาค่ามุมเข็มทิศของผู้ใช้
-        const heading = e.detail.heading; // (หัวกล้อง)
+        const heading = e.detail.heading; 
         if (heading !== undefined) {
           const relativeBearing = bearing - heading;
           arrow.setAttribute("rotation", `0 ${relativeBearing} 0`);
 
-          // ตรวจสอบว่าผู้ใช้กำลังเดินไปในทิศทางที่ถูกต้องหรือไม่
           const angleDifference = Math.abs(relativeBearing);
           if (angleDifference < 10) {
-            // ทิศทางถูกต้องเมื่อมุมไม่เกิน 10 องศา
             statusElement.innerText = "ทิศทางถูกต้อง";
             statusElement.style.color = "green";
           } else {

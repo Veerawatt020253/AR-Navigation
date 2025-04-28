@@ -20,6 +20,9 @@
     <a-camera gps-camera rotation-reader></a-camera>
   </a-scene>
 
+  <!-- ข้อความแสดงสถานะการนำทาง -->
+  <div id="status" style="position: fixed; top: 10px; left: 10px; color: white; font-size: 20px;">กรุณารอการกำหนดทิศทาง...</div>
+
   <script>
     const urlParams = new URLSearchParams(window.location.search);
     const destination = urlParams.get('destination');
@@ -39,6 +42,7 @@
     }
 
     const arrow = document.getElementById('arrow');
+    const statusElement = document.getElementById('status');
 
     // คำนวณองศาระหว่างตำแหน่งเรา -> จุดหมาย
     function computeBearing(lat1, lon1, lat2, lon2) {
@@ -67,6 +71,16 @@
       if (heading !== undefined) {
         const relativeBearing = bearing - heading;
         arrow.setAttribute('rotation', `0 ${relativeBearing} 0`);
+
+        // ตรวจสอบว่าผู้ใช้กำลังเดินไปในทิศทางที่ถูกต้องหรือไม่
+        const angleDifference = Math.abs(relativeBearing);
+        if (angleDifference < 10) { // ทิศทางถูกต้องเมื่อมุมไม่เกิน 10 องศา
+          statusElement.innerText = 'ทิศทางถูกต้อง';
+          statusElement.style.color = 'green';
+        } else {
+          statusElement.innerText = 'ทิศทางผิด';
+          statusElement.style.color = 'red';
+        }
       }
     });
   </script>

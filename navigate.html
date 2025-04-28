@@ -2,12 +2,14 @@
 <html>
 <head>
   <title>นำทางด้วย AR หมุนได้</title>
-  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/jeromeetienne/AR.js/aframe/build/aframe-ar.min.js"></script>
+  <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+  <!-- Ensure you're using a working version of AR.js -->
+  <script src="https://cdn.jsdelivr.net/gh/jeromeetienne/AR.js/aframe/build/aframe-ar.js"></script>
   <script src="https://unpkg.com/aframe-gps-entity-place/dist/aframe-gps-entity-place.min.js"></script>
 </head>
 <body style="margin: 0; overflow: hidden;">
-  <a-scene embedded arjs="sourceType: webcam;">
+  <a-scene embedded arjs="sourceType: webcam; trackingMethod: best;">
+
     <!-- ลูกศรนำทาง -->
     <a-entity id="arrow" 
       geometry="primitive: cone; radiusBottom: 0.3; radiusTop: 0; height: 1;"
@@ -83,6 +85,7 @@
         }
       }
     });
+
   </script>
 </body>
 </html>

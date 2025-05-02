@@ -41,45 +41,46 @@
     <!-- พาร์ติเคิลจุดขาวจำนวนมาก -->
     <div
       id="particle-container"
-      class="pointer-events-none absolute top-0 left-0 w-full h-full overflow-hidden z-10"
-    ></div>
+      class="pointer-events-none absolute top-0 left-0 w-full h-full overflow-hidden z-10"></div>
 
-    <div class="relative w-full h-screen overflow-hidden">
+    <div class="relative w-full min-h-[210vh] overflow-hidden">
       <!-- ภาพพื้นหลังแบบ Parallax -->
       <div
         id="parallax-bg"
-        class="parallax absolute top-0 left-0 w-full h-1/2 z-0"
-      ></div>
+        class="parallax absolute top-0 left-0 w-full h-1/2 z-0"></div>
 
       <!-- เลเยอร์มืดบนภาพ -->
       <div
-        class="absolute top-0 left-0 w-full h-1/2 bg-black opacity-40 z-10"
-      ></div>
+        class="absolute top-0 left-0 w-full h-1/2 bg-black opacity-40 z-10"></div>
 
       <!-- โลโก้ + หัวข้อ -->
       <div
-        class="absolute top-40 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center z-20 text-white px-4"
-      >
+        class="absolute top-40 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center z-20 text-white px-4 mt-[22%]">
         <img src="./img/logo.png" alt="Yupparaj Logo" class="w-20 h-25 mb-4" />
         <h1 class="text-3xl md:text-4xl font-bold text-center max-w-[90%]">
           Yupparaj Navigation With AR
         </h1>
+        <a href="#button"
+          class="mt-3 border-2 border-[#FF1493] text-pink-500 px-4 py-2 rounded-full 
+          shadow-[0_0_15px_#FF1493] transition-all duration-300 
+          hover:bg-[#FF1493] hover:text-white hover:shadow-[0_0_25px_#FF1493] hover:scale-105 
+          hover:backdrop-blur-sm">
+          เริ่มเลย
+        </a>
+
       </div>
 
       <!-- กล่องคำสั่ง -->
       <div
-        class="absolute inset-0 bg-white rounded-t-[70px] pt-10 p-5 shadow-lg flex flex-col items-center top-[35%] shadow-xl z-30"
-      >
+        class="absolute inset-0 bg-white rounded-t-[70px] pt-10 p-5 shadow-lg flex flex-col items-center top-[35%] shadow-xl z-30" id="button">
         <div class="flex flex-col space-y-4 w-11/12">
           <!-- ไป สปย -->
           <button
             onclick="goTo('toilet1')"
-            class="relative border border-[#FF1493] text-white font-semibold py-3 px-4 rounded-xl w-full overflow-hidden"
-          >
+            class="relative border border-[#FF1493] text-white font-semibold py-3 px-4 rounded-xl w-full overflow-hidden">
             <!-- รูปพื้นหลังของปุ่ม -->
             <div
-              class="absolute inset-0 bg-[url('./img/bg-building1.jpg')] bg-cover bg-center pointer-events-none"
-            >
+              class="absolute inset-0 bg-[url('./img/bg-building1.jpg')] bg-cover bg-center pointer-events-none">
               <div class="absolute inset-0 bg-black opacity-40"></div>
             </div>
             <span class="relative z-10">ไปอาคารสปย</span>
@@ -88,12 +89,10 @@
           <!-- ไปห้องน้ำรังผึ้ง -->
           <button
             onclick="goTo('toilet1')"
-            class="relative border border-[#FF1493] text-white font-semibold py-3 px-4 rounded-xl w-full overflow-hidden"
-          >
+            class="relative border border-[#FF1493] text-white font-semibold py-3 px-4 rounded-xl w-full overflow-hidden">
             <!-- รูปพื้นหลังของปุ่ม -->
             <div
-              class="absolute inset-0 bg-[url('./img/bg-building1.jpg')] bg-cover bg-center pointer-events-none"
-            >
+              class="absolute inset-0 bg-[url('./img/bg-building1.jpg')] bg-cover bg-center pointer-events-none">
               <div class="absolute inset-0 bg-black opacity-40"></div>
             </div>
             <span class="relative z-10">ไปห้องน้ำรังผึ่ง</span>
@@ -102,12 +101,10 @@
           <!-- ไปตึกยุพราช -->
           <button
             onclick="goTo('building1')"
-            class="relative border border-[#FF1493] text-white font-semibold py-3 px-4 rounded-xl w-full overflow-hidden"
-          >
+            class="relative border border-[#FF1493] text-white font-semibold py-3 px-4 rounded-xl w-full overflow-hidden">
             <!-- รูปพื้นหลังของปุ่ม -->
             <div
-              class="absolute inset-0 bg-[url('./img/bg-building1.jpg')] bg-cover bg-center pointer-events-none"
-            >
+              class="absolute inset-0 bg-[url('./img/bg-building1.jpg')] bg-cover bg-center pointer-events-none">
               <div class="absolute inset-0 bg-black opacity-40"></div>
             </div>
             <span class="relative z-10">ไปตึกยุพราช</span>
@@ -116,12 +113,10 @@
           <!-- ไปตึก 2 -->
           <button
             onclick="goTo('building1')"
-            class="relative border border-[#FF1493] text-white font-semibold py-3 px-4 rounded-xl w-full overflow-hidden"
-          >
+            class="relative border border-[#FF1493] text-white font-semibold py-3 px-4 rounded-xl w-full overflow-hidden">
             <!-- รูปพื้นหลังของปุ่ม -->
             <div
-              class="absolute inset-0 bg-[url('./img/bg-building1.jpg')] bg-cover bg-center pointer-events-none"
-            >
+              class="absolute inset-0 bg-[url('./img/bg-building1.jpg')] bg-cover bg-center pointer-events-none">
               <div class="absolute inset-0 bg-black opacity-40"></div>
             </div>
             <span class="relative z-10">ไปเรือนวิเชียร (อาคาร 2)</span>
@@ -130,12 +125,10 @@
           <!-- ไปตึก 3 -->
           <button
             onclick="goTo('building1')"
-            class="relative border border-[#FF1493] text-white font-semibold py-3 px-4 rounded-xl w-full overflow-hidden"
-          >
+            class="relative border border-[#FF1493] text-white font-semibold py-3 px-4 rounded-xl w-full overflow-hidden">
             <!-- รูปพื้นหลังของปุ่ม -->
             <div
-              class="absolute inset-0 bg-[url('./img/bg-building1.jpg')] bg-cover bg-center pointer-events-none"
-            >
+              class="absolute inset-0 bg-[url('./img/bg-building1.jpg')] bg-cover bg-center pointer-events-none">
               <div class="absolute inset-0 bg-black opacity-40"></div>
             </div>
             <span class="relative z-10">ไปเรือนรัตน์ (อาคาร 3)</span>
@@ -144,15 +137,122 @@
           <!-- ไปตึก 4 -->
           <button
             onclick="goTo('building1')"
-            class="relative border border-[#FF1493] text-white font-semibold py-3 px-4 rounded-xl w-full overflow-hidden"
-          >
+            class="relative border border-[#FF1493] text-white font-semibold py-3 px-4 rounded-xl w-full overflow-hidden">
             <!-- รูปพื้นหลังของปุ่ม -->
             <div
-              class="absolute inset-0 bg-[url('./img/bg-building1.jpg')] bg-cover bg-center pointer-events-none"
-            >
+              class="absolute inset-0 bg-[url('./img/bg-building1.jpg')] bg-cover bg-center pointer-events-none">
               <div class="absolute inset-0 bg-black opacity-40"></div>
             </div>
             <span class="relative z-10">ไปเรือนเพชร (อาคาร 4)</span>
+          </button>
+
+          <!-- ไปตึก 5 -->
+          <button
+            onclick="goTo('building1')"
+            class="relative border border-[#FF1493] text-white font-semibold py-3 px-4 rounded-xl w-full overflow-hidden">
+            <!-- รูปพื้นหลังของปุ่ม -->
+            <div
+              class="absolute inset-0 bg-[url('./img/bg-building1.jpg')] bg-cover bg-center pointer-events-none">
+              <div class="absolute inset-0 bg-black opacity-40"></div>
+            </div>
+            <span class="relative z-10">ไปเรือนวชิระ (อาคาร 5)</span>
+          </button>
+
+          <!-- ไปตึก 6 -->
+          <button
+            onclick="goTo('building1')"
+            class="relative border border-[#FF1493] text-white font-semibold py-3 px-4 rounded-xl w-full overflow-hidden">
+            <!-- รูปพื้นหลังของปุ่ม -->
+            <div
+              class="absolute inset-0 bg-[url('./img/bg-building1.jpg')] bg-cover bg-center pointer-events-none">
+              <div class="absolute inset-0 bg-black opacity-40"></div>
+            </div>
+            <span class="relative z-10">ไปเรือนพัชระ (อาคาร 6)</span>
+          </button>
+
+          <!-- ไปตึก 7 -->
+          <button
+            onclick="goTo('building1')"
+            class="relative border border-[#FF1493] text-white font-semibold py-3 px-4 rounded-xl w-full overflow-hidden">
+            <!-- รูปพื้นหลังของปุ่ม -->
+            <div
+              class="absolute inset-0 bg-[url('./img/bg-building1.jpg')] bg-cover bg-center pointer-events-none">
+              <div class="absolute inset-0 bg-black opacity-40"></div>
+            </div>
+            <span class="relative z-10">ไปรัตนมณี (อาคาร 7)</span>
+          </button>
+
+          <!-- ไปตึก 8 -->
+          <button
+            onclick="goTo('building1')"
+            class="relative border border-[#FF1493] text-white font-semibold py-3 px-4 rounded-xl w-full overflow-hidden">
+            <!-- รูปพื้นหลังของปุ่ม -->
+            <div
+              class="absolute inset-0 bg-[url('./img/bg-building1.jpg')] bg-cover bg-center pointer-events-none">
+              <div class="absolute inset-0 bg-black opacity-40"></div>
+            </div>
+            <span class="relative z-10">ไปศรีมรกต (อาคาร 8)</span>
+          </button>
+
+          <!-- ไปตึก 9 -->
+          <button
+            onclick="goTo('building1')"
+            class="relative border border-[#FF1493] text-white font-semibold py-3 px-4 rounded-xl w-full overflow-hidden">
+            <!-- รูปพื้นหลังของปุ่ม -->
+            <div
+              class="absolute inset-0 bg-[url('./img/bg-building1.jpg')] bg-cover bg-center pointer-events-none">
+              <div class="absolute inset-0 bg-black opacity-40"></div>
+            </div>
+            <span class="relative z-10">ไปโรงอาหารนวรัตน์ (อาคาร 9)</span>
+          </button>
+
+          <!-- ไปตึก 10 -->
+          <button
+            onclick="goTo('building1')"
+            class="relative border border-[#FF1493] text-white font-semibold py-3 px-4 rounded-xl w-full overflow-hidden">
+            <!-- รูปพื้นหลังของปุ่ม -->
+            <div
+              class="absolute inset-0 bg-[url('./img/bg-building1.jpg')] bg-cover bg-center pointer-events-none">
+              <div class="absolute inset-0 bg-black opacity-40"></div>
+            </div>
+            <span class="relative z-10">ไปอาคารเพชรรัตนราชสุดา (อาคาร 10)</span>
+          </button>
+
+          <!-- ไปตึก 11 -->
+          <button
+            onclick="goTo('building1')"
+            class="relative border border-[#FF1493] text-white font-semibold py-3 px-4 rounded-xl w-full overflow-hidden">
+            <!-- รูปพื้นหลังของปุ่ม -->
+            <div
+              class="absolute inset-0 bg-[url('./img/bg-building1.jpg')] bg-cover bg-center pointer-events-none">
+              <div class="absolute inset-0 bg-black opacity-40"></div>
+            </div>
+            <span class="relative z-10">ไปอาคารยุพราช 100 ปี (อาคาร 11)</span>
+          </button>
+
+          <!-- ไปตึก 12 -->
+          <button
+            onclick="goTo('building1')"
+            class="relative border border-[#FF1493] text-white font-semibold py-3 px-4 rounded-xl w-full overflow-hidden">
+            <!-- รูปพื้นหลังของปุ่ม -->
+            <div
+              class="absolute inset-0 bg-[url('./img/bg-building1.jpg')] bg-cover bg-center pointer-events-none">
+              <div class="absolute inset-0 bg-black opacity-40"></div>
+            </div>
+            <span class="relative z-10">ไปอาคารวชิรดารา (อาคาร 12)</span>
+          </button>
+
+          <!-- ไปตึก 13 -->
+          <button
+            onclick="goTo('building1')"
+            class="relative border border-[#FF1493] text-white font-semibold py-3 px-4 rounded-xl w-full overflow-hidden">
+            <!-- รูปพื้นหลังของปุ่ม -->
+            <div
+              class="absolute inset-0 bg-[url('./img/bg-building1.jpg')] bg-cover bg-center pointer-events-none">
+              <div class="absolute inset-0 bg-black opacity-40"></div>
+            </div>
+            <span class="relative z-10">ไปศูนย์วิทยบริการดารารัศมี (อาคาร
+              13)</span>
           </button>
         </div>
       </div>

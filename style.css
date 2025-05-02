@@ -10,4 +10,5 @@
 
 body, html {
     font-family: kanit;
+    scroll-behavior: smooth;
 }

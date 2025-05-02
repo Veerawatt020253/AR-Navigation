@@ -1,0 +1,13 @@
+@font-face {
+    font-family: kanit;
+    src: url(./font//Kanit-Medium.ttf);
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+    background-color: #F5F5F5;
+}
+
+body, html {
+    font-family: kanit;
+}

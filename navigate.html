@@ -9,8 +9,8 @@
     <a-scene embedded arjs="sourceType: webcam; trackingMethod: best;">
       <!-- ลูกศรนำทาง -->
       <a-entity
-        id="platform"
-        geometry="primitive: box; width: 2; height: 0.2; depth: 1;"
+        id="arrow"
+        geometry="primitive: cone; radiusBottom: 0.5; radiusTop: 0; height: 1.5;"
         material="color: #FF6347; emissive: #FF6347; opacity: 0.8;"
         rotation="0 0 0"
         position="0 0 0"
@@ -44,6 +44,7 @@
 
       const destinations = {
         library: { lat: 18.791915, lon: 98.988959 },
+        building1: { lat: 18.791715, lon: 98.988702},
         canteen: { lat: 18.796, lon: 98.9793 },
         auditorium: { lat: 18.7962, lon: 98.9785 },
       };
@@ -91,7 +92,7 @@
       }
 
       function getDistance(lat1, lon1, lat2, lon2) {
-        const R = 6371;
+        const R = 6371; //รัศมีของโลกกกกก
         const dLat = (lat2 - lat1) * Math.PI / 180;
         const dLon = (lon2 - lon1) * Math.PI / 180;
         const a =

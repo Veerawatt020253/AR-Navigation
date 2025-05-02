@@ -1,21 +1,197 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>เลือกจุดหมาย</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body style="font-family: sans-serif; text-align: center; padding: 20px;">
-  <h1>เลือกจุดหมายปลายทาง</h1>
+<html lang="th">
+  <head>
+    <title>YRC Navigation With AR</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css" />
 
-  <button onclick="goTo('library')">ไปห้องสมุด</button><br><br>
-  <button onclick="goTo('canteen')">ไปโรงอาหาร</button><br><br>
-  <button onclick="goTo('auditorium')">ไปหอประชุม</button>
+    <link rel="shortcut icon" href="./img/logo.png" type="image/x-icon" />
 
-  <script>
-    function goTo(destination) {
-      // ส่งค่า destination ไปหน้า navigate.html
-      window.location.href = `navigate.html?destination=${destination}`;
-    }
-  </script>
-</body>
+    <style>
+      @keyframes fall {
+        0% {
+          transform: translateY(-10px);
+          opacity: 0.8;
+        }
+        100% {
+          transform: translateY(100vh);
+          opacity: 0;
+        }
+      }
+
+      .animate-fall {
+        animation-name: fall;
+        animation-timing-function: linear;
+        animation-iteration-count: infinite;
+      }
+
+      .parallax {
+        background-image: url("./img/Vitory119.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        transform: translateY(0);
+        transition: transform 0.1s linear;
+        will-change: transform;
+      }
+    </style>
+  </head>
+  <body class="m-0 p-0 text-center bg-white overflow-x-hidden">
+    <!-- พาร์ติเคิลจุดขาวจำนวนมาก -->
+    <div
+      id="particle-container"
+      class="pointer-events-none absolute top-0 left-0 w-full h-full overflow-hidden z-10"
+    ></div>
+
+    <div class="relative w-full h-screen overflow-hidden">
+      <!-- ภาพพื้นหลังแบบ Parallax -->
+      <div
+        id="parallax-bg"
+        class="parallax absolute top-0 left-0 w-full h-1/2 z-0"
+      ></div>
+
+      <!-- เลเยอร์มืดบนภาพ -->
+      <div
+        class="absolute top-0 left-0 w-full h-1/2 bg-black opacity-40 z-10"
+      ></div>
+
+      <!-- โลโก้ + หัวข้อ -->
+      <div
+        class="absolute top-40 left-1/2 transform -translate-x-1/2 -translate-y-1/2 flex flex-col items-center justify-center z-20 text-white px-4"
+      >
+        <img src="./img/logo.png" alt="Yupparaj Logo" class="w-20 h-25 mb-4" />
+        <h1 class="text-3xl md:text-4xl font-bold text-center max-w-[90%]">
+          Yupparaj Navigation With AR
+        </h1>
+      </div>
+
+      <!-- กล่องคำสั่ง -->
+      <div
+        class="absolute inset-0 bg-white rounded-t-[70px] pt-10 p-5 shadow-lg flex flex-col items-center top-[35%] shadow-xl z-30"
+      >
+        <div class="flex flex-col space-y-4 w-11/12">
+          <!-- ไป สปย -->
+          <button
+            onclick="goTo('toilet1')"
+            class="relative border border-[#FF1493] text-white font-semibold py-3 px-4 rounded-xl w-full overflow-hidden"
+          >
+            <!-- รูปพื้นหลังของปุ่ม -->
+            <div
+              class="absolute inset-0 bg-[url('./img/bg-building1.jpg')] bg-cover bg-center pointer-events-none"
+            >
+              <div class="absolute inset-0 bg-black opacity-40"></div>
+            </div>
+            <span class="relative z-10">ไปอาคารสปย</span>
+          </button>
+
+          <!-- ไปห้องน้ำรังผึ้ง -->
+          <button
+            onclick="goTo('toilet1')"
+            class="relative border border-[#FF1493] text-white font-semibold py-3 px-4 rounded-xl w-full overflow-hidden"
+          >
+            <!-- รูปพื้นหลังของปุ่ม -->
+            <div
+              class="absolute inset-0 bg-[url('./img/bg-building1.jpg')] bg-cover bg-center pointer-events-none"
+            >
+              <div class="absolute inset-0 bg-black opacity-40"></div>
+            </div>
+            <span class="relative z-10">ไปห้องน้ำรังผึ่ง</span>
+          </button>
+
+          <!-- ไปตึกยุพราช -->
+          <button
+            onclick="goTo('building1')"
+            class="relative border border-[#FF1493] text-white font-semibold py-3 px-4 rounded-xl w-full overflow-hidden"
+          >
+            <!-- รูปพื้นหลังของปุ่ม -->
+            <div
+              class="absolute inset-0 bg-[url('./img/bg-building1.jpg')] bg-cover bg-center pointer-events-none"
+            >
+              <div class="absolute inset-0 bg-black opacity-40"></div>
+            </div>
+            <span class="relative z-10">ไปตึกยุพราช</span>
+          </button>
+
+          <!-- ไปตึก 2 -->
+          <button
+            onclick="goTo('building1')"
+            class="relative border border-[#FF1493] text-white font-semibold py-3 px-4 rounded-xl w-full overflow-hidden"
+          >
+            <!-- รูปพื้นหลังของปุ่ม -->
+            <div
+              class="absolute inset-0 bg-[url('./img/bg-building1.jpg')] bg-cover bg-center pointer-events-none"
+            >
+              <div class="absolute inset-0 bg-black opacity-40"></div>
+            </div>
+            <span class="relative z-10">ไปเรือนวิเชียร (อาคาร 2)</span>
+          </button>
+
+          <!-- ไปตึก 3 -->
+          <button
+            onclick="goTo('building1')"
+            class="relative border border-[#FF1493] text-white font-semibold py-3 px-4 rounded-xl w-full overflow-hidden"
+          >
+            <!-- รูปพื้นหลังของปุ่ม -->
+            <div
+              class="absolute inset-0 bg-[url('./img/bg-building1.jpg')] bg-cover bg-center pointer-events-none"
+            >
+              <div class="absolute inset-0 bg-black opacity-40"></div>
+            </div>
+            <span class="relative z-10">ไปเรือนรัตน์ (อาคาร 3)</span>
+          </button>
+
+          <!-- ไปตึก 4 -->
+          <button
+            onclick="goTo('building1')"
+            class="relative border border-[#FF1493] text-white font-semibold py-3 px-4 rounded-xl w-full overflow-hidden"
+          >
+            <!-- รูปพื้นหลังของปุ่ม -->
+            <div
+              class="absolute inset-0 bg-[url('./img/bg-building1.jpg')] bg-cover bg-center pointer-events-none"
+            >
+              <div class="absolute inset-0 bg-black opacity-40"></div>
+            </div>
+            <span class="relative z-10">ไปเรือนเพชร (อาคาร 4)</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Script สำหรับพาร์ติเคิล + Parallax -->
+    <script>
+      function goTo(destination) {
+        window.location.href = `navigate.html?destination=${destination}`;
+      }
+
+      const particleContainer = document.getElementById("particle-container");
+      const numParticles = 80;
+
+      for (let i = 0; i < numParticles; i++) {
+        const particle = document.createElement("div");
+        const size = Math.random() * 3 + 4;
+        const duration = Math.random() * 3 + 3;
+        const delay = Math.random() * 5;
+        const left = Math.random() * 100;
+
+        particle.className =
+          "absolute bg-white rounded-full opacity-70 animate-fall";
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${left}%`;
+        particle.style.animationDuration = `${duration}s`;
+        particle.style.animationDelay = `${delay}s`;
+        particle.style.top = "0px";
+
+        particleContainer.appendChild(particle);
+      }
+
+      // Parallax Effect
+      const parallaxBg = document.getElementById("parallax-bg");
+      window.addEventListener("scroll", () => {
+        const scrollY = window.scrollY;
+        parallaxBg.style.transform = `translateY(${scrollY * 0.4}px)`;
+      });
+    </script>
+  </body>
 </html>
